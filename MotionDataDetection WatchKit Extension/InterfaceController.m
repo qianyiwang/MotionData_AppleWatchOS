@@ -21,19 +21,34 @@
 @synthesize acc_x_text;
 @synthesize acc_y_text;
 @synthesize acc_z_text;
-@synthesize speed_last_x;
-@synthesize speed_last_y;
-@synthesize speed_last_z;
+@synthesize speed_last;
 @synthesize time_interval;
+@synthesize mSpeedBias;
+@synthesize mSpeedDelta;
+@synthesize SPEED_BIAS_STEP;
+@synthesize SPEED_ZERO_RANGE;
 
 - (void)awakeWithContext:(id)context {
     [super awakeWithContext:context];
 
     // Configure interface objects here.
+    [self initialVariables];
+}
+
+- (void)initialVariables{
     motionManager = [[CMMotionManager alloc] init];
     motionManager.deviceMotionUpdateInterval = time_interval;
     time_interval = 0.05;
-    speed_last_x = speed_last_y = speed_last_z = 0;
+    
+    speed_last = [[NSMutableArray alloc] init];
+    [speed_last addObject:[NSNumber numberWithDouble:0]];
+    [speed_last addObject:[NSNumber numberWithDouble:0]];
+    [speed_last addObject:[NSNumber numberWithDouble:0]];
+    
+    mSpeedDelta = @[@0, @0, @0];
+    mSpeedBias = @[@0, @0, @0];
+    SPEED_BIAS_STEP = @[@0.1f, @0.1f, @0.1f];
+    SPEED_ZERO_RANGE = @[@0.05f, @0.05f, @0.05f];
 }
 
 - (void)willActivate {
@@ -64,26 +79,36 @@
         
         [self calculateSpeed:acc_global_x accY:acc_global_y accZ:acc_global_z];
         
-        NSLog(@"acc_x: %f, acc_y: %f, acc_z: %f, speed_x: %f, speed_y: %f, speed_z: %f", acc_global_x, acc_global_y, acc_global_z, speed_last_x, speed_last_y, speed_last_z);
+        NSLog(@"acc_x: %f, acc_y: %f, acc_z: %f, speed_x: %@, speed_y: %@, speed_z: %@", acc_global_x, acc_global_y, acc_global_z, speed_last[0], speed_last[1], speed_last[2]);
     }];
 }
 
 -(void)calculateSpeed:(double)acc_x accY:(double)acc_y accZ:(double)acc_z{
-    speed_last_x += acc_x*time_interval;
-    speed_last_y += acc_y*time_interval;
-    speed_last_z += acc_z*time_interval;
+//    myArray replaceObjectAtIndex:0 withObject:@"Y"
+    for(int i=0; i<3; i++){
+        double temp = [speed_last[i] doubleValue]+acc_x*time_interval;
+        [speed_last replaceObjectAtIndex:i withObject:[NSNumber numberWithDouble:temp]];
+    }
 }
 
 -(void)resetVariables{
-    speed_last_x = speed_last_y = speed_last_z = 0;
+    for(int i=0; i<3; i++){
+        [speed_last replaceObjectAtIndex:i withObject:[NSNumber numberWithDouble:0]];
+    }
+}
+
+-(void)speedCalibrationFilter{
+    
 }
 
 - (IBAction)startButtonAction {
     [self startSensorUpdate];
 }
 - (IBAction)stopButtonAction {
-    [self resetVariables];
     motionManager.stopDeviceMotionUpdates;
+    [self resetVariables];
+    mSpeedDelta = @[@0, @0, @0];
+    mSpeedBias = @[@0, @0, @0];
 }
 
 @end

@@ -51,7 +51,7 @@
 		</data>
 		<key>Watch/MotionDataDetection WatchKit App.app/MotionDataDetection WatchKit App</key>
 		<data>
-		4icgfd8WM9DVKLbZ1b7PET9SZRY=
+		UOsEuJrbxv2Q30pQUHbHFdtjKLI=
 		</data>
 		<key>Watch/MotionDataDetection WatchKit App.app/PkgInfo</key>
 		<data>
@@ -63,7 +63,7 @@
 		</data>
 		<key>Watch/MotionDataDetection WatchKit App.app/PlugIns/MotionDataDetection WatchKit Extension.appex/MotionDataDetection WatchKit Extension</key>
 		<data>
-		WzBPbbivnUJBrBx817q22LAsP0g=
+		kuYVTEER4LVq7Y1tbADrjwvtb/8=
 		</data>
 		<key>Watch/MotionDataDetection WatchKit App.app/PlugIns/MotionDataDetection WatchKit Extension.appex/_CodeSignature/CodeResources</key>
 		<data>
@@ -75,7 +75,7 @@
 		</data>
 		<key>Watch/MotionDataDetection WatchKit App.app/_CodeSignature/CodeResources</key>
 		<data>
-		S3gFean4j9LjClcg7RQa6+lV2u0=
+		3tyC6sRUjAejMwQjE+Ok8np5HBg=
 		</data>
 		<key>Watch/MotionDataDetection WatchKit App.app/_WatchKitStub/WK</key>
 		<data>
@@ -186,11 +186,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			4icgfd8WM9DVKLbZ1b7PET9SZRY=
+			UOsEuJrbxv2Q30pQUHbHFdtjKLI=
 			</data>
 			<key>hash2</key>
 			<data>
-			+52MBNscG5uyN+8gfjVOEzaj7RVvHDRgsG5Z4Bz7vCI=
+			E9HOkPELBBrf6dGmCrqb9M254Xqg6SwYE5WQT0GYoJY=
 			</data>
 		</dict>
 		<key>Watch/MotionDataDetection WatchKit App.app/PkgInfo</key>
@@ -219,11 +219,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			WzBPbbivnUJBrBx817q22LAsP0g=
+			kuYVTEER4LVq7Y1tbADrjwvtb/8=
 			</data>
 			<key>hash2</key>
 			<data>
-			2xD8xP4dHc52Lazyi+TUBB+sjBr5Buy31c0AmJ5y+sA=
+			E04srM7gwrWHVB8Np/s6ATzCL998KfwIDNyVHsxOMOk=
 			</data>
 		</dict>
 		<key>Watch/MotionDataDetection WatchKit App.app/PlugIns/MotionDataDetection WatchKit Extension.appex/_CodeSignature/CodeResources</key>
@@ -252,11 +252,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			S3gFean4j9LjClcg7RQa6+lV2u0=
+			3tyC6sRUjAejMwQjE+Ok8np5HBg=
 			</data>
 			<key>hash2</key>
 			<data>
-			jWcn1Kxq4sSr6676S2Xo5S7QUSBCsReaEjvcDF0LMbQ=
+			NcLxOP0kt77RTdnyiFivo7z8OWC8P55I6MZYfGtyanM=
 			</data>
 		</dict>
 		<key>Watch/MotionDataDetection WatchKit App.app/_WatchKitStub/WK</key>
