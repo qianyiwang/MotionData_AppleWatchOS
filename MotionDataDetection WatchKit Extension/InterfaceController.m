@@ -89,8 +89,8 @@
         //        speed_last_z += acc_global_z*time_interval;
         
         [self calculateSpeed:acc_global_x accY:acc_global_y accZ:acc_global_z];
-        
-        NSLog(@"acc_x: %f, acc_y: %f, acc_z: %f, speed_x: %@, speed_y: %@, speed_z: %@", acc_global_x, acc_global_y, acc_global_z, speed_last[0], speed_last[1], speed_last[2]);
+        [self speedCalibrationFilter];
+        NSLog(@"acc_x: %f, acc_y: %f, acc_z: %f, speed_x: %@, speed_y: %@, speed_z: %@", acc_global_x, acc_global_y, acc_global_z, mSpeedDelta[0], mSpeedDelta[1], mSpeedDelta[2]);
     }];
 }
 
@@ -137,7 +137,7 @@
                                                         [speed_last[i] doubleValue]-[mSpeedBias[i] doubleValue]]];
         
         if([mSpeedDelta[i] doubleValue]<[SPEED_ZERO_RANGE[i] doubleValue] && [mSpeedDelta[i] doubleValue]>-[SPEED_ZERO_RANGE[i] doubleValue]){
-            [mSpeedDelta[i] replaceObjectAtIndex:i withObject:[NSNumber numberWithDouble:0]];
+            [mSpeedDelta replaceObjectAtIndex:i withObject:[NSNumber numberWithDouble:0]];
         }
     }
 }
