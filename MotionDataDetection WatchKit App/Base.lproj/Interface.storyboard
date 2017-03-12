@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
+    <device id="watch38" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="watchOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="11508"/>
+    </dependencies>
+    <scenes>
+        <!--Interface Controller-->
+        <scene sceneID="aou-V4-d1y">
+            <objects>
+                <controller id="AgC-eL-Hgc" customClass="InterfaceController">
+                    <items>
+                        <label width="136" alignment="left" text="Label" id="Y0a-Kl-zks">
+                            <color key="textColor" white="1" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </label>
+                        <label width="136" alignment="left" text="Label" id="fIk-hm-tkt">
+                            <color key="textColor" white="1" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </label>
+                        <label width="136" alignment="left" text="Label" id="l7U-5G-nVb">
+                            <color key="textColor" white="1" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </label>
+                        <button width="1" alignment="left" title="Start" id="UJb-aU-Sc7">
+                            <connections>
+                                <action selector="startButtonAction" destination="AgC-eL-Hgc" id="S6P-KM-Jre"/>
+                            </connections>
+                        </button>
+                        <button width="1" alignment="left" title="Stop" id="Qt6-7A-4v5">
+                            <connections>
+                                <action selector="stopButtonAction" destination="AgC-eL-Hgc" id="WSk-3J-M4g"/>
+                            </connections>
+                        </button>
+                    </items>
+                    <connections>
+                        <outlet property="acc_x_text" destination="Y0a-Kl-zks" id="WL3-hU-beJ"/>
+                        <outlet property="acc_y_text" destination="fIk-hm-tkt" id="brN-no-GwA"/>
+                        <outlet property="acc_z_text" destination="l7U-5G-nVb" id="Tgy-90-5yf"/>
+                    </connections>
+                </controller>
+            </objects>
+        </scene>
+    </scenes>
+</document>
