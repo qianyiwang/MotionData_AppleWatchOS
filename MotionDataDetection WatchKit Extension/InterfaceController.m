@@ -45,10 +45,21 @@
     [speed_last addObject:[NSNumber numberWithDouble:0]];
     [speed_last addObject:[NSNumber numberWithDouble:0]];
     
-    mSpeedDelta = @[@0, @0, @0];
-    mSpeedBias = @[@0, @0, @0];
-    SPEED_BIAS_STEP = @[@0.1f, @0.1f, @0.1f];
-    SPEED_ZERO_RANGE = @[@0.05f, @0.05f, @0.05f];
+    mSpeedDelta = [[NSMutableArray alloc] init];
+    [mSpeedDelta addObject:[NSNumber numberWithDouble:0]];
+    [mSpeedDelta addObject:[NSNumber numberWithDouble:0]];
+    [mSpeedDelta addObject:[NSNumber numberWithDouble:0]];
+    
+    mSpeedBias = [[NSMutableArray alloc] init];
+    [mSpeedBias addObject:[NSNumber numberWithDouble:0]];
+    [mSpeedBias addObject:[NSNumber numberWithDouble:0]];
+    [mSpeedBias addObject:[NSNumber numberWithDouble:0]];
+    
+    SPEED_BIAS_STEP = [[NSArray alloc] init];
+    SPEED_BIAS_STEP = @[@0.1, @0.1, @0.1];
+    
+    SPEED_ZERO_RANGE= [[NSArray alloc] init];
+    SPEED_ZERO_RANGE = @[@0.05, @0.05, @0.05];
 }
 
 - (void)willActivate {
@@ -94,11 +105,41 @@
 -(void)resetVariables{
     for(int i=0; i<3; i++){
         [speed_last replaceObjectAtIndex:i withObject:[NSNumber numberWithDouble:0]];
+        [mSpeedBias replaceObjectAtIndex:i withObject:[NSNumber numberWithDouble:0]];
+        [mSpeedDelta replaceObjectAtIndex:i withObject:[NSNumber numberWithDouble:0]];
     }
 }
 
 -(void)speedCalibrationFilter{
-    
+    for(int i=0; i<3; i++){
+        double temp = [speed_last[i] doubleValue] - [mSpeedBias[i] doubleValue];
+        [mSpeedDelta replaceObjectAtIndex:i withObject:[NSNumber numberWithDouble:temp]];
+        
+        if ([mSpeedDelta[i] doubleValue]> 0){
+            if ([mSpeedDelta[i] doubleValue] > [SPEED_BIAS_STEP[i] doubleValue]) {
+                [mSpeedBias replaceObjectAtIndex:i withObject:
+                 [NSNumber numberWithDouble:[mSpeedBias[i] doubleValue]+[SPEED_BIAS_STEP[i] doubleValue]]];
+            } else {
+                [mSpeedBias replaceObjectAtIndex:i withObject:[NSNumber numberWithDouble:
+                                                               [mSpeedBias[i] doubleValue]+[speed_last[i] doubleValue]]];
+            }
+        }
+        else{
+            if ([mSpeedDelta[i] doubleValue] < -[SPEED_BIAS_STEP[i] doubleValue]) {
+                [mSpeedBias replaceObjectAtIndex:i withObject:
+                 [NSNumber numberWithDouble:[mSpeedBias[i] doubleValue]-[SPEED_BIAS_STEP[i] doubleValue]]];
+            } else {
+                [mSpeedBias replaceObjectAtIndex:i withObject:[NSNumber numberWithDouble:
+                                                               [mSpeedBias[i] doubleValue]-[speed_last[i] doubleValue]]];
+            }
+        }
+        [mSpeedDelta replaceObjectAtIndex:i withObject:[NSNumber numberWithDouble:
+                                                        [speed_last[i] doubleValue]-[mSpeedBias[i] doubleValue]]];
+        
+        if([mSpeedDelta[i] doubleValue]<[SPEED_ZERO_RANGE[i] doubleValue] && [mSpeedDelta[i] doubleValue]>-[SPEED_ZERO_RANGE[i] doubleValue]){
+            [mSpeedDelta[i] replaceObjectAtIndex:i withObject:[NSNumber numberWithDouble:0]];
+        }
+    }
 }
 
 - (IBAction)startButtonAction {
@@ -107,8 +148,6 @@
 - (IBAction)stopButtonAction {
     motionManager.stopDeviceMotionUpdates;
     [self resetVariables];
-    mSpeedDelta = @[@0, @0, @0];
-    mSpeedBias = @[@0, @0, @0];
 }
 
 @end

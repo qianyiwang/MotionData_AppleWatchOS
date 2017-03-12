@@ -16,8 +16,8 @@
 @property (strong, nonatomic) IBOutlet WKInterfaceLabel *acc_z_text;
 @property (nonatomic) double time_interval;
 @property (nonatomic) NSMutableArray *speed_last;
-@property (nonatomic) NSArray *mSpeedBias;
-@property (nonatomic) NSArray *mSpeedDelta;
+@property (nonatomic) NSMutableArray *mSpeedBias;
+@property (nonatomic) NSMutableArray *mSpeedDelta;
 @property (nonatomic) NSArray *SPEED_BIAS_STEP;
 @property (nonatomic) NSArray *SPEED_ZERO_RANGE;
 
