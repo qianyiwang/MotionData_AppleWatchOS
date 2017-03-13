@@ -79,7 +79,7 @@
     ACC_BIAS_STEP = @[@0.01, @0.01, @0.01];
     
     ACC_ZERO_RANGE= [[NSArray alloc] init];
-    ACC_ZERO_RANGE = @[@0.1, @0.1, @0.1];
+    ACC_ZERO_RANGE = @[@0.05, @0.05, @0.05];
     
     SPEED_BIAS_STEP = [[NSArray alloc] init];
     SPEED_BIAS_STEP = @[@0.1, @0.1, @0.1];
@@ -102,6 +102,8 @@
 -(void)startSensorUpdate{
     [motionManager startDeviceMotionUpdatesToQueue:[NSOperationQueue currentQueue] withHandler:^(CMDeviceMotion  *deviceMotion, NSError *error) {
         
+//        NSLog(@"%f,%f,%f", deviceMotion.userAcceleration.x, deviceMotion.userAcceleration.y, deviceMotion.userAcceleration.z);
+/*
         // apply calibration filter for Acceleration
         
         [acc_array replaceObjectAtIndex:0 withObject:[NSNumber numberWithDouble:deviceMotion.userAcceleration.x]];
@@ -139,12 +141,15 @@
             }
         }
         // end calibration filter for Acceleration
-        
+*/
         CMAttitude *attitude = deviceMotion.attitude;
         CMRotationMatrix rot=attitude.rotationMatrix;
-        double acc_global_x = [mAccDelta[0] doubleValue]*rot.m11 + [mAccDelta[1] doubleValue]*rot.m21 + [mAccDelta[2] doubleValue]*rot.m31;
-        double acc_global_y = [mAccDelta[0] doubleValue]*rot.m12 + [mAccDelta[1] doubleValue]*rot.m22 + [mAccDelta[2] doubleValue]*rot.m32;
-        double acc_global_z = [mAccDelta[0] doubleValue]*rot.m13 + [mAccDelta[1] doubleValue]*rot.m23 + [mAccDelta[2] doubleValue]*rot.m33;
+//        double acc_global_x = [mAccDelta[0] doubleValue]*rot.m11 + [mAccDelta[1] doubleValue]*rot.m21 + [mAccDelta[2] doubleValue]*rot.m31;
+//        double acc_global_y = [mAccDelta[0] doubleValue]*rot.m12 + [mAccDelta[1] doubleValue]*rot.m22 + [mAccDelta[2] doubleValue]*rot.m32;
+//        double acc_global_z = [mAccDelta[0] doubleValue]*rot.m13 + [mAccDelta[1] doubleValue]*rot.m23 + [mAccDelta[2] doubleValue]*rot.m33;
+        double acc_global_x = deviceMotion.userAcceleration.x*rot.m11 + deviceMotion.userAcceleration.y*rot.m21 + deviceMotion.userAcceleration.z*rot.m31;
+        double acc_global_y = deviceMotion.userAcceleration.x*rot.m12 + deviceMotion.userAcceleration.y*rot.m22 + deviceMotion.userAcceleration.z*rot.m32;
+        double acc_global_z = deviceMotion.userAcceleration.x*rot.m13 + deviceMotion.userAcceleration.y*rot.m23 + deviceMotion.userAcceleration.z*rot.m33;
         
         
         NSLog(@"%f,%f,%f", acc_global_x, acc_global_y, acc_global_z);
