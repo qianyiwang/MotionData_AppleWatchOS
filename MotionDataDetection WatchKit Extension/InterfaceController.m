@@ -102,51 +102,8 @@
 -(void)startSensorUpdate{
     [motionManager startDeviceMotionUpdatesToQueue:[NSOperationQueue currentQueue] withHandler:^(CMDeviceMotion  *deviceMotion, NSError *error) {
         
-//        NSLog(@"%f,%f,%f", deviceMotion.userAcceleration.x, deviceMotion.userAcceleration.y, deviceMotion.userAcceleration.z);
-/*
-        // apply calibration filter for Acceleration
-        
-        [acc_array replaceObjectAtIndex:0 withObject:[NSNumber numberWithDouble:deviceMotion.userAcceleration.x]];
-        [acc_array replaceObjectAtIndex:1 withObject:[NSNumber numberWithDouble:deviceMotion.userAcceleration.y]];
-        [acc_array replaceObjectAtIndex:2 withObject:[NSNumber numberWithDouble:deviceMotion.userAcceleration.z]];
-        
-        for(int i=0; i<3; i++){
-
-            double temp = [acc_array[i] doubleValue] - [mAccBias[i] doubleValue];
-            [mAccDelta replaceObjectAtIndex:i withObject:[NSNumber numberWithDouble:temp]];
-            
-            if ([mAccDelta[i] doubleValue]> 0){
-                if ([mAccDelta[i] doubleValue] > [ACC_BIAS_STEP[i] doubleValue]) {
-                    [mAccBias replaceObjectAtIndex:i withObject:
-                     [NSNumber numberWithDouble:[mAccBias[i] doubleValue]+[ACC_BIAS_STEP[i] doubleValue]]];
-                } else {
-                    [mAccBias replaceObjectAtIndex:i withObject:[NSNumber numberWithDouble:
-                                                                   [mAccBias[i] doubleValue]+[acc_array[i] doubleValue]]];
-                }
-            }
-            else{
-                if ([mAccDelta[i] doubleValue] < -[ACC_BIAS_STEP[i] doubleValue]) {
-                    [mAccBias replaceObjectAtIndex:i withObject:
-                     [NSNumber numberWithDouble:[mAccBias[i] doubleValue]-[ACC_BIAS_STEP[i] doubleValue]]];
-                } else {
-                    [mAccBias replaceObjectAtIndex:i withObject:[NSNumber numberWithDouble:
-                                                                   [mAccBias[i] doubleValue]-[acc_array[i] doubleValue]]];
-                }
-            }
-            [mSpeedDelta replaceObjectAtIndex:i withObject:[NSNumber numberWithDouble:
-                                                            [acc_array[i] doubleValue]-[mAccBias[i] doubleValue]]];
-            
-            if([mAccDelta[i] doubleValue]<[ACC_ZERO_RANGE[i] doubleValue] && [mAccDelta[i] doubleValue]>-[ACC_ZERO_RANGE[i] doubleValue]){
-                [mAccDelta replaceObjectAtIndex:i withObject:[NSNumber numberWithDouble:0]];
-            }
-        }
-        // end calibration filter for Acceleration
-*/
         CMAttitude *attitude = deviceMotion.attitude;
         CMRotationMatrix rot=attitude.rotationMatrix;
-//        double acc_global_x = [mAccDelta[0] doubleValue]*rot.m11 + [mAccDelta[1] doubleValue]*rot.m21 + [mAccDelta[2] doubleValue]*rot.m31;
-//        double acc_global_y = [mAccDelta[0] doubleValue]*rot.m12 + [mAccDelta[1] doubleValue]*rot.m22 + [mAccDelta[2] doubleValue]*rot.m32;
-//        double acc_global_z = [mAccDelta[0] doubleValue]*rot.m13 + [mAccDelta[1] doubleValue]*rot.m23 + [mAccDelta[2] doubleValue]*rot.m33;
         double acc_global_x = deviceMotion.userAcceleration.x*rot.m11 + deviceMotion.userAcceleration.y*rot.m21 + deviceMotion.userAcceleration.z*rot.m31;
         double acc_global_y = deviceMotion.userAcceleration.x*rot.m12 + deviceMotion.userAcceleration.y*rot.m22 + deviceMotion.userAcceleration.z*rot.m32;
         double acc_global_z = deviceMotion.userAcceleration.x*rot.m13 + deviceMotion.userAcceleration.y*rot.m23 + deviceMotion.userAcceleration.z*rot.m33;
@@ -157,14 +114,6 @@
         self.acc_x_text.text = [NSString stringWithFormat:@"%f", acc_global_x];
         self.acc_y_text.text = [NSString stringWithFormat:@"%f", acc_global_y];
         self.acc_z_text.text = [NSString stringWithFormat:@"%f", acc_global_z];
-        
-        //        speed_last_x += acc_global_x*time_interval;
-        //        speed_last_y += acc_global_y*time_interval;
-        //        speed_last_z += acc_global_z*time_interval;
-        
-//        [self calculateSpeed:acc_global_x accY:acc_global_y accZ:acc_global_z];
-//        [self speedCalibrationFilter];
-//        NSLog(@"acc_x: %f, acc_y: %f, acc_z: %f, speed_x: %@, speed_y: %@, speed_z: %@", acc_global_x, acc_global_y, acc_global_z, mSpeedDelta[0], mSpeedDelta[1], mSpeedDelta[2]);
     }];
 }
 
