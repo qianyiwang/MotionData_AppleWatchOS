@@ -18,9 +18,7 @@
 
 @implementation InterfaceController
 
-@synthesize acc_x_text;
-@synthesize acc_y_text;
-@synthesize acc_z_text;
+@synthesize gesture_result;
 @synthesize acc_array;
 @synthesize speed_last;
 @synthesize time_interval;
@@ -32,6 +30,11 @@
 @synthesize SPEED_ZERO_RANGE;
 @synthesize ACC_BIAS_STEP;
 @synthesize ACC_ZERO_RANGE;
+@synthesize synthesizer;
+@synthesize utterance;
+@synthesize rotation_array;
+@synthesize pointIdx;
+@synthesize rotationFlag;
 
 - (void)awakeWithContext:(id)context {
     [super awakeWithContext:context];
@@ -87,11 +90,18 @@
     SPEED_ZERO_RANGE= [[NSArray alloc] init];
     SPEED_ZERO_RANGE = @[@0.05, @0.05, @0.05];
     
+    synthesizer = [[AVSpeechSynthesizer alloc]init];
+    
+    rotation_array = [[NSMutableArray alloc] init];
+    pointIdx = 0;
+    rotationFlag = false;
+    
 }
 
 - (void)willActivate {
     // This method is called when watch view controller is about to be visible to user
     [super willActivate];
+    
 }
 
 - (void)didDeactivate {
@@ -104,17 +114,42 @@
         
         CMAttitude *attitude = deviceMotion.attitude;
         CMRotationMatrix rot=attitude.rotationMatrix;
-        double acc_global_x = deviceMotion.userAcceleration.x*rot.m11 + deviceMotion.userAcceleration.y*rot.m21 + deviceMotion.userAcceleration.z*rot.m31;
-        double acc_global_y = deviceMotion.userAcceleration.x*rot.m12 + deviceMotion.userAcceleration.y*rot.m22 + deviceMotion.userAcceleration.z*rot.m32;
+        double acc_device_x = deviceMotion.userAcceleration.x;
+        double acc_device_y = deviceMotion.userAcceleration.y;
+        // convert from device coordinate to global coordinate
+/*        double acc_global_x = deviceMotion.userAcceleration.x*rot.m11 + deviceMotion.userAcceleration.y*rot.m21 + deviceMotion.userAcceleration.z*rot.m31;
+        double acc_global_y = deviceMotion.userAcceleration.x*rot.m12 + deviceMotion.userAcceleration.y*rot.m22 + deviceMotion.userAcceleration.z*rot.m32; */
         double acc_global_z = deviceMotion.userAcceleration.x*rot.m13 + deviceMotion.userAcceleration.y*rot.m23 + deviceMotion.userAcceleration.z*rot.m33;
         
+        // retreive rotation rate
+        double rotation_x = deviceMotion.rotationRate.x;
+        double rotation_y = deviceMotion.rotationRate.y;
+        double rotation_z = deviceMotion.rotationRate.z;
         
-        NSLog(@"%f,%f,%f", acc_global_x, acc_global_y, acc_global_z);
+//        NSLog(@"%f,%f,%f,%f,%f,%f", acc_device_x, acc_device_x, acc_global_z, rotation_x, rotation_y, rotation_z);
         
-        self.acc_x_text.text = [NSString stringWithFormat:@"%f", acc_global_x];
-        self.acc_y_text.text = [NSString stringWithFormat:@"%f", acc_global_y];
-        self.acc_z_text.text = [NSString stringWithFormat:@"%f", acc_global_z];
+//        self.acc_x_text.text = [NSString stringWithFormat:@"%f", acc_device_x];
+//        self.acc_y_text.text = [NSString stringWithFormat:@"%f", acc_device_y];
+//        self.acc_z_text.text = [NSString stringWithFormat:@"%f", acc_global_z];
+        
+        if(rotation_x>=20||rotation_x<-20){
+            rotationFlag = true;
+        }
+        if(rotationFlag && pointIdx<150){
+            pointIdx++;
+            [rotation_array addObject:[NSNumber numberWithDouble:rotation_x]];
+        }
+        else if(rotationFlag && pointIdx>=150){
+            [self considerGesture:rotation_array];
+        }
     }];
+}
+
+-(void)speech:(NSString *)text{
+    utterance = [AVSpeechUtterance speechUtteranceWithString:text];
+    [utterance setRate:0.3f];
+    utterance.voice = [AVSpeechSynthesisVoice voiceWithLanguage:@"en-us"];
+    [synthesizer speakUtterance:utterance];
 }
 
 -(void)calculateSpeed:(double)acc_x accY:(double)acc_y accZ:(double)acc_z{
@@ -133,37 +168,76 @@
     }
 }
 
--(void)speedCalibrationFilter{
-    for(int i=0; i<3; i++){
-        double temp = [speed_last[i] doubleValue] - [mSpeedBias[i] doubleValue];
-        [mSpeedDelta replaceObjectAtIndex:i withObject:[NSNumber numberWithDouble:temp]];
-        
-        if ([mSpeedDelta[i] doubleValue]> 0){
-            if ([mSpeedDelta[i] doubleValue] > [SPEED_BIAS_STEP[i] doubleValue]) {
-                [mSpeedBias replaceObjectAtIndex:i withObject:
-                 [NSNumber numberWithDouble:[mSpeedBias[i] doubleValue]+[SPEED_BIAS_STEP[i] doubleValue]]];
-            } else {
-                [mSpeedBias replaceObjectAtIndex:i withObject:[NSNumber numberWithDouble:
-                                                               [mSpeedBias[i] doubleValue]+[speed_last[i] doubleValue]]];
+-(void)considerGesture: (NSMutableArray*) rotation_arr{
+    int idx = 0;
+    if([rotation_arr[0] doubleValue]>20){
+        for(int i = 0; i<[rotation_arr count]; i++){
+            if([rotation_arr[i] doubleValue]>20){
+                idx++;
             }
+        }
+        if(idx>6){
+            NSLog(@"count: %d", idx);
+            NSLog(@"double inside");
+            self.gesture_result.text = @"double inside";
         }
         else{
-            if ([mSpeedDelta[i] doubleValue] < -[SPEED_BIAS_STEP[i] doubleValue]) {
-                [mSpeedBias replaceObjectAtIndex:i withObject:
-                 [NSNumber numberWithDouble:[mSpeedBias[i] doubleValue]-[SPEED_BIAS_STEP[i] doubleValue]]];
-            } else {
-                [mSpeedBias replaceObjectAtIndex:i withObject:[NSNumber numberWithDouble:
-                                                               [mSpeedBias[i] doubleValue]-[speed_last[i] doubleValue]]];
-            }
-        }
-        [mSpeedDelta replaceObjectAtIndex:i withObject:[NSNumber numberWithDouble:
-                                                        [speed_last[i] doubleValue]-[mSpeedBias[i] doubleValue]]];
-        
-        if([mSpeedDelta[i] doubleValue]<[SPEED_ZERO_RANGE[i] doubleValue] && [mSpeedDelta[i] doubleValue]>-[SPEED_ZERO_RANGE[i] doubleValue]){
-            [mSpeedDelta replaceObjectAtIndex:i withObject:[NSNumber numberWithDouble:0]];
+            NSLog(@"single inside");
+            self.gesture_result.text = @"single inside";
         }
     }
+    else if([rotation_arr[0] doubleValue]<-20){
+        for(int i = 0; i<[rotation_arr count]; i++){
+            if([rotation_arr[i] doubleValue]<-20){
+                idx++;
+            }
+        }
+        if(idx>6){
+            NSLog(@"count: %d", idx);
+            NSLog(@"double outside");
+            self.gesture_result.text = @"double outside";
+        }
+        else{
+            NSLog(@"single outside");
+            self.gesture_result.text = @"single outside";
+        }
+    }
+    [rotation_array removeAllObjects];
+    rotationFlag = false;
+    pointIdx = 0;
 }
+
+//-(void)speedCalibrationFilter{
+//    for(int i=0; i<3; i++){
+//        double temp = [speed_last[i] doubleValue] - [mSpeedBias[i] doubleValue];
+//        [mSpeedDelta replaceObjectAtIndex:i withObject:[NSNumber numberWithDouble:temp]];
+//        
+//        if ([mSpeedDelta[i] doubleValue]> 0){
+//            if ([mSpeedDelta[i] doubleValue] > [SPEED_BIAS_STEP[i] doubleValue]) {
+//                [mSpeedBias replaceObjectAtIndex:i withObject:
+//                 [NSNumber numberWithDouble:[mSpeedBias[i] doubleValue]+[SPEED_BIAS_STEP[i] doubleValue]]];
+//            } else {
+//                [mSpeedBias replaceObjectAtIndex:i withObject:[NSNumber numberWithDouble:
+//                                                               [mSpeedBias[i] doubleValue]+[speed_last[i] doubleValue]]];
+//            }
+//        }
+//        else{
+//            if ([mSpeedDelta[i] doubleValue] < -[SPEED_BIAS_STEP[i] doubleValue]) {
+//                [mSpeedBias replaceObjectAtIndex:i withObject:
+//                 [NSNumber numberWithDouble:[mSpeedBias[i] doubleValue]-[SPEED_BIAS_STEP[i] doubleValue]]];
+//            } else {
+//                [mSpeedBias replaceObjectAtIndex:i withObject:[NSNumber numberWithDouble:
+//                                                               [mSpeedBias[i] doubleValue]-[speed_last[i] doubleValue]]];
+//            }
+//        }
+//        [mSpeedDelta replaceObjectAtIndex:i withObject:[NSNumber numberWithDouble:
+//                                                        [speed_last[i] doubleValue]-[mSpeedBias[i] doubleValue]]];
+//        
+//        if([mSpeedDelta[i] doubleValue]<[SPEED_ZERO_RANGE[i] doubleValue] && [mSpeedDelta[i] doubleValue]>-[SPEED_ZERO_RANGE[i] doubleValue]){
+//            [mSpeedDelta replaceObjectAtIndex:i withObject:[NSNumber numberWithDouble:0]];
+//        }
+//    }
+//}
 
 - (IBAction)startButtonAction {
     [[WKInterfaceDevice currentDevice] playHaptic:WKHapticTypeClick];
@@ -181,6 +255,7 @@
 //    });
     [motionManager stopDeviceMotionUpdates];
     [self resetVariables];
+    gesture_result.text = @"RESULT";
 }
 
 @end

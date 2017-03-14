@@ -14,14 +14,8 @@
             <objects>
                 <controller id="AgC-eL-Hgc" customClass="InterfaceController">
                     <items>
-                        <label width="136" alignment="left" text="Label" id="Y0a-Kl-zks">
-                            <color key="textColor" white="1" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        </label>
-                        <label width="136" alignment="left" text="Label" id="fIk-hm-tkt">
-                            <color key="textColor" white="1" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        </label>
-                        <label width="136" alignment="left" text="Label" id="l7U-5G-nVb">
-                            <color key="textColor" white="1" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <label width="136" alignment="left" text="Label" textAlignment="center" id="kFw-n4-C78">
+                            <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
                         </label>
                         <button width="1" alignment="left" title="Start" id="UJb-aU-Sc7">
                             <connections>
@@ -35,9 +29,7 @@
                         </button>
                     </items>
                     <connections>
-                        <outlet property="acc_x_text" destination="Y0a-Kl-zks" id="WL3-hU-beJ"/>
-                        <outlet property="acc_y_text" destination="fIk-hm-tkt" id="brN-no-GwA"/>
-                        <outlet property="acc_z_text" destination="l7U-5G-nVb" id="Tgy-90-5yf"/>
+                        <outlet property="gesture_result" destination="kFw-n4-C78" id="ccv-kV-hK5"/>
                     </connections>
                 </controller>
             </objects>
