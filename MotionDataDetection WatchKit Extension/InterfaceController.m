@@ -96,6 +96,8 @@
     pointIdx = 0;
     rotationFlag = false;
     
+    [utterance setRate:1.0f];
+    utterance.voice = [AVSpeechSynthesisVoice voiceWithLanguage:@"en-us"];
 }
 
 - (void)willActivate {
@@ -147,8 +149,6 @@
 
 -(void)speech:(NSString *)text{
     utterance = [AVSpeechUtterance speechUtteranceWithString:text];
-    [utterance setRate:0.3f];
-    utterance.voice = [AVSpeechSynthesisVoice voiceWithLanguage:@"en-us"];
     [synthesizer speakUtterance:utterance];
 }
 
@@ -180,10 +180,12 @@
             NSLog(@"count: %d", idx);
             NSLog(@"double inside");
             self.gesture_result.text = @"double inside";
+            [self speech:@"double inside"];
         }
         else{
             NSLog(@"single inside");
             self.gesture_result.text = @"single inside";
+            [self speech:@"single inside"];
         }
     }
     else if([rotation_arr[0] doubleValue]<-20){
@@ -196,10 +198,12 @@
             NSLog(@"count: %d", idx);
             NSLog(@"double outside");
             self.gesture_result.text = @"double outside";
+            [self speech:@"double outside"];
         }
         else{
             NSLog(@"single outside");
             self.gesture_result.text = @"single outside";
+            [self speech:@"single outside"];
         }
     }
     [rotation_array removeAllObjects];
