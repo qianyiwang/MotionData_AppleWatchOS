@@ -18,7 +18,7 @@
 		</data>
 		<key>Base.lproj/Main.storyboardc/BYZ-38-t0r-view-8bC-Xf-vdC.nib</key>
 		<data>
-		X6k0RrRDqKlWHcIzVgOq8OVy47M=
+		s8p/p0COMoCMHsaDZ6zDAITs/p4=
 		</data>
 		<key>Base.lproj/Main.storyboardc/Info.plist</key>
 		<data>
@@ -26,7 +26,7 @@
 		</data>
 		<key>Base.lproj/Main.storyboardc/UIViewController-BYZ-38-t0r.nib</key>
 		<data>
-		JB5fdRwk/g8PNp7MhNQJGFqVFHo=
+		hsA2Eeyi/Qdpk5wNS/LGNDAKV/c=
 		</data>
 		<key>Info.plist</key>
 		<data>
@@ -51,7 +51,7 @@
 		</data>
 		<key>Watch/MotionDataDetection WatchKit App.app/MotionDataDetection WatchKit App</key>
 		<data>
-		vW0AVjUruYzzNL1uXHb1PFD02W4=
+		gocagAQtOPeZA0Vks8vsYMncdb4=
 		</data>
 		<key>Watch/MotionDataDetection WatchKit App.app/PkgInfo</key>
 		<data>
@@ -63,7 +63,7 @@
 		</data>
 		<key>Watch/MotionDataDetection WatchKit App.app/PlugIns/MotionDataDetection WatchKit Extension.appex/MotionDataDetection WatchKit Extension</key>
 		<data>
-		wpEF/2uUprSjKavSJV4ua7s3wcc=
+		7EnBCk5k4VYfyQVFFIk1zSlT/bE=
 		</data>
 		<key>Watch/MotionDataDetection WatchKit App.app/PlugIns/MotionDataDetection WatchKit Extension.appex/_CodeSignature/CodeResources</key>
 		<data>
@@ -75,7 +75,7 @@
 		</data>
 		<key>Watch/MotionDataDetection WatchKit App.app/_CodeSignature/CodeResources</key>
 		<data>
-		9UHktk+vUjbIggPxFbT6VKLeEiY=
+		J9K9XuQtSPXlzRY1Hkud2HEZ4D0=
 		</data>
 		<key>Watch/MotionDataDetection WatchKit App.app/_WatchKitStub/WK</key>
 		<data>
@@ -129,11 +129,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			X6k0RrRDqKlWHcIzVgOq8OVy47M=
+			s8p/p0COMoCMHsaDZ6zDAITs/p4=
 			</data>
 			<key>hash2</key>
 			<data>
-			Qmb8WkoASE/OmZq/OEgE4r1NPrY5TL1X3OVAhmyoa78=
+			Qp8LW0gWZhK+LBzrQ+GVG1H/EYB5KdiSx9g2ZKnDrxc=
 			</data>
 		</dict>
 		<key>Base.lproj/Main.storyboardc/Info.plist</key>
@@ -151,11 +151,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			JB5fdRwk/g8PNp7MhNQJGFqVFHo=
+			hsA2Eeyi/Qdpk5wNS/LGNDAKV/c=
 			</data>
 			<key>hash2</key>
 			<data>
-			1hCvUvO0RrvOrCxkqmAL7VqIaEmkCy/a0O+W4IEDZh8=
+			7+dxxLiQ+B9GF8vCpJFsCcGvQbu+32amZV496PvhDLc=
 			</data>
 		</dict>
 		<key>Watch/MotionDataDetection WatchKit App.app/Base.lproj/Interface.plist</key>
@@ -186,11 +186,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			vW0AVjUruYzzNL1uXHb1PFD02W4=
+			gocagAQtOPeZA0Vks8vsYMncdb4=
 			</data>
 			<key>hash2</key>
 			<data>
-			i1IsAzFD/uMh+Ap3leT8ZFIhmWrPUErkzJyeSJLd9nI=
+			YYTPcU8AcdshXlGdC40fwCzI/SJ7Rp98aaGzgzWPe/4=
 			</data>
 		</dict>
 		<key>Watch/MotionDataDetection WatchKit App.app/PkgInfo</key>
@@ -219,11 +219,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			wpEF/2uUprSjKavSJV4ua7s3wcc=
+			7EnBCk5k4VYfyQVFFIk1zSlT/bE=
 			</data>
 			<key>hash2</key>
 			<data>
-			ZGRdURTnbHm1ALRwEEHEG9PtZhcoseq2RHjWeAxiIjw=
+			ARKmLeZGPPUS9liK1kOlEAxzDWxBr+XuwNKpFSeVj4Q=
 			</data>
 		</dict>
 		<key>Watch/MotionDataDetection WatchKit App.app/PlugIns/MotionDataDetection WatchKit Extension.appex/_CodeSignature/CodeResources</key>
@@ -252,11 +252,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			9UHktk+vUjbIggPxFbT6VKLeEiY=
+			J9K9XuQtSPXlzRY1Hkud2HEZ4D0=
 			</data>
 			<key>hash2</key>
 			<data>
-			HThIFVCjRXYkinA1M9FoFj7v4ZMoxfYYXp84A+fOgDQ=
+			x35RVJ6GBtkqHcS2IzMwzPKYancxR5usXjwTBtaNFg8=
 			</data>
 		</dict>
 		<key>Watch/MotionDataDetection WatchKit App.app/_WatchKitStub/WK</key>

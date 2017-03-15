@@ -7,10 +7,12 @@
 //
 
 #import "InterfaceController.h"
+#import <WatchConnectivity/WatchConnectivity.h>
 
 
 @interface InterfaceController(){
     CMMotionManager *motionManager;
+    WCSession *session;
 }
 
 @end
@@ -98,6 +100,13 @@
     
     [utterance setRate:1.0f];
     utterance.voice = [AVSpeechSynthesisVoice voiceWithLanguage:@"en-us"];
+    
+    // init watch connectivity
+    if ([WCSession isSupported]) {
+        session = [WCSession defaultSession];
+        session.delegate = self;
+        [session activateSession];
+    }
 }
 
 - (void)willActivate {
@@ -181,11 +190,13 @@
             NSLog(@"double inside");
             self.gesture_result.text = @"double inside";
             [self speech:@"double inside"];
+            [self sendInfo:@"double inside"];
         }
         else{
             NSLog(@"single inside");
             self.gesture_result.text = @"single inside";
             [self speech:@"single inside"];
+            [self sendInfo:@"single inside"];
         }
     }
     else if([rotation_arr[0] doubleValue]<-20){
@@ -199,49 +210,19 @@
             NSLog(@"double outside");
             self.gesture_result.text = @"double outside";
             [self speech:@"double outside"];
+            [self sendInfo:@"double outside"];
         }
         else{
             NSLog(@"single outside");
             self.gesture_result.text = @"single outside";
             [self speech:@"single outside"];
+            [self sendInfo:@"single outside"];
         }
     }
     [rotation_array removeAllObjects];
     rotationFlag = false;
     pointIdx = 0;
 }
-
-//-(void)speedCalibrationFilter{
-//    for(int i=0; i<3; i++){
-//        double temp = [speed_last[i] doubleValue] - [mSpeedBias[i] doubleValue];
-//        [mSpeedDelta replaceObjectAtIndex:i withObject:[NSNumber numberWithDouble:temp]];
-//        
-//        if ([mSpeedDelta[i] doubleValue]> 0){
-//            if ([mSpeedDelta[i] doubleValue] > [SPEED_BIAS_STEP[i] doubleValue]) {
-//                [mSpeedBias replaceObjectAtIndex:i withObject:
-//                 [NSNumber numberWithDouble:[mSpeedBias[i] doubleValue]+[SPEED_BIAS_STEP[i] doubleValue]]];
-//            } else {
-//                [mSpeedBias replaceObjectAtIndex:i withObject:[NSNumber numberWithDouble:
-//                                                               [mSpeedBias[i] doubleValue]+[speed_last[i] doubleValue]]];
-//            }
-//        }
-//        else{
-//            if ([mSpeedDelta[i] doubleValue] < -[SPEED_BIAS_STEP[i] doubleValue]) {
-//                [mSpeedBias replaceObjectAtIndex:i withObject:
-//                 [NSNumber numberWithDouble:[mSpeedBias[i] doubleValue]-[SPEED_BIAS_STEP[i] doubleValue]]];
-//            } else {
-//                [mSpeedBias replaceObjectAtIndex:i withObject:[NSNumber numberWithDouble:
-//                                                               [mSpeedBias[i] doubleValue]-[speed_last[i] doubleValue]]];
-//            }
-//        }
-//        [mSpeedDelta replaceObjectAtIndex:i withObject:[NSNumber numberWithDouble:
-//                                                        [speed_last[i] doubleValue]-[mSpeedBias[i] doubleValue]]];
-//        
-//        if([mSpeedDelta[i] doubleValue]<[SPEED_ZERO_RANGE[i] doubleValue] && [mSpeedDelta[i] doubleValue]>-[SPEED_ZERO_RANGE[i] doubleValue]){
-//            [mSpeedDelta replaceObjectAtIndex:i withObject:[NSNumber numberWithDouble:0]];
-//        }
-//    }
-//}
 
 - (IBAction)startButtonAction {
     [[WKInterfaceDevice currentDevice] playHaptic:WKHapticTypeClick];
@@ -260,6 +241,16 @@
     [motionManager stopDeviceMotionUpdates];
     [self resetVariables];
     gesture_result.text = @"RESULT";
+}
+
+-(void)sendInfo: (NSString*)info{
+    // This converts the string to an NSData object
+    NSData *data = [info dataUsingEncoding:NSUTF8StringEncoding];
+    [[WCSession defaultSession] sendMessageData:data replyHandler:^(NSData * _Nonnull replyMessageData) {
+        NSLog(@"reply: %@",replyMessageData);
+    } errorHandler:^(NSError * _Nonnull error) {
+        NSLog(@"error: %@",error);
+    }];
 }
 
 @end

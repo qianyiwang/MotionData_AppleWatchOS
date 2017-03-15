@@ -7,16 +7,27 @@
 //
 
 #import "ViewController.h"
+#import <WatchConnectivity/WatchConnectivity.h>
 
-@interface ViewController ()
+@interface ViewController (){
+    WCSession *session;
+}
 
 @end
 
 @implementation ViewController
 
+@synthesize gesture_result;
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    
+    if ([WCSession isSupported]) {
+        session = [WCSession defaultSession];
+        session.delegate = self;
+        [session activateSession];
+    }
 }
 
 
@@ -25,5 +36,12 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)session:(WCSession *)session didReceiveMessageData:(nonnull NSData *)messageData replyHandler:(nonnull void (^)(NSData * _Nonnull))replyHandler{
+    replyHandler([@"received" dataUsingEncoding:NSUTF8StringEncoding]);
+    NSString* str;
+    str = [[NSString alloc] initWithData:messageData encoding:NSASCIIStringEncoding];
+    NSLog(@"%@",str);
+    self.gesture_result.text = str;
+}
 
 @end
