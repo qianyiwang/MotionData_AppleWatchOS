@@ -41,7 +41,10 @@
     NSString* str;
     str = [[NSString alloc] initWithData:messageData encoding:NSASCIIStringEncoding];
     NSLog(@"%@",str);
-    self.gesture_result.text = str;
+    // change the UI in the main thread to eliminate the delay
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.gesture_result.text = str;
+    });
 }
 
 @end
