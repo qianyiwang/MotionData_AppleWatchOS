@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GCDAsyncUdpSocket.h"
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController <GCDAsyncUdpSocketDelegate>
 @property (strong, nonatomic) IBOutlet UILabel *gesture_result;
 
 

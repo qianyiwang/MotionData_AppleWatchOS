@@ -21,6 +21,7 @@
 		4E4FC4841E7486F90033D369 /* ExtensionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4FC4831E7486F90033D369 /* ExtensionDelegate.m */; };
 		4E4FC4861E7486F90033D369 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4E4FC4851E7486F90033D369 /* Assets.xcassets */; };
 		4E4FC4971E74870D0033D369 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E4FC4961E74870D0033D369 /* CoreMotion.framework */; };
+		4EF49E9B1E78F09A00F44F4C /* GCDAsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF49E9A1E78F09A00F44F4C /* GCDAsyncUdpSocket.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,6 +89,8 @@
 		4E4FC4851E7486F90033D369 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4E4FC4871E7486F90033D369 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4E4FC4961E74870D0033D369 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS3.1.sdk/System/Library/Frameworks/CoreMotion.framework; sourceTree = DEVELOPER_DIR; };
+		4EF49E991E78F08600F44F4C /* GCDAsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GCDAsyncUdpSocket.h; path = ../../CocoaAsyncSocket/Source/GCD/GCDAsyncUdpSocket.h; sourceTree = "<group>"; };
+		4EF49E9A1E78F09A00F44F4C /* GCDAsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GCDAsyncUdpSocket.m; path = ../../CocoaAsyncSocket/Source/GCD/GCDAsyncUdpSocket.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +136,8 @@
 		4E4FC4561E7486F90033D369 /* MotionDataDetection */ = {
 			isa = PBXGroup;
 			children = (
+				4EF49E9A1E78F09A00F44F4C /* GCDAsyncUdpSocket.m */,
+				4EF49E991E78F08600F44F4C /* GCDAsyncUdpSocket.h */,
 				4E4FC45A1E7486F90033D369 /* AppDelegate.h */,
 				4E4FC45B1E7486F90033D369 /* AppDelegate.m */,
 				4E4FC45D1E7486F90033D369 /* ViewController.h */,
@@ -322,6 +327,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4EF49E9B1E78F09A00F44F4C /* GCDAsyncUdpSocket.m in Sources */,
 				4E4FC45F1E7486F90033D369 /* ViewController.m in Sources */,
 				4E4FC45C1E7486F90033D369 /* AppDelegate.m in Sources */,
 				4E4FC4591E7486F90033D369 /* main.m in Sources */,
@@ -577,6 +583,7 @@
 				4E4FC48C1E7486F90033D369 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4E4FC48E1E7486F90033D369 /* Build configuration list for PBXNativeTarget "MotionDataDetection WatchKit App" */ = {
 			isa = XCConfigurationList;
@@ -585,6 +592,7 @@
 				4E4FC4901E7486F90033D369 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4E4FC4921E7486F90033D369 /* Build configuration list for PBXNativeTarget "MotionDataDetection" */ = {
 			isa = XCConfigurationList;
@@ -593,6 +601,7 @@
 				4E4FC4941E7486F90033D369 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

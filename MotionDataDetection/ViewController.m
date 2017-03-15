@@ -11,6 +11,7 @@
 
 @interface ViewController (){
     WCSession *session;
+    GCDAsyncUdpSocket *udpSocket;
 }
 
 @end
@@ -28,6 +29,12 @@
         session.delegate = self;
         [session activateSession];
     }
+    // init udp socket
+    udpSocket = [[GCDAsyncUdpSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];
+    NSError *error = nil;
+    if(![udpSocket bindToPort:8001 error:&error]){
+        NSLog(@"error in bindToPort");
+    }
 }
 
 
@@ -41,6 +48,7 @@
     NSString* str;
     str = [[NSString alloc] initWithData:messageData encoding:NSASCIIStringEncoding];
     NSLog(@"%@",str);
+    [udpSocket sendData:messageData toHost:@"10.0.0.189" port:8001 withTimeout:-1 tag:1];
     // change the UI in the main thread to eliminate the delay
     dispatch_async(dispatch_get_main_queue(), ^{
         self.gesture_result.text = str;
